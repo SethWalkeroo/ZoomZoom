@@ -126,7 +126,12 @@ class ZoomZoom:
         join_button = browser.find_element_by_xpath('//*[@id="btnSubmit"]')
         join_button.click()
         sleep(1)
-        pyautogui.click( 0.552 * self.screen_width, 0.152 * self.screen_height)
+        #For linux users.
+        #This clicks the open window in the browser to open the zoom app on your computer. 
+        if self.operating_system == 'Linux':
+            pyautogui.click( 0.552 * self.screen_width, 0.152 * self.screen_height)
+        else:
+            pyautogui.click( 0.552 * self.screen_width, 0.152 * self.screen_height - 50)
         #clicks join without video button when no password is needed.
         sleep(1)
         pyautogui.click(0.597 * self.screen_width, 0.625 * self.screen_height)

@@ -7,4 +7,4 @@ A zoom bot that automatically joins zoom calls for you and saves the meeting id 
     1.  **Firefox** gecko webdrivers can be found here: https://github.com/mozilla/geckodriver/releases
     
 1.  Install the required dependencies from **requirements.txt** within your virtual environment.
-1.  You can launch the applicatin from the zoomzoom.py file located inside the main directory.
+1.  You can launch the application from the **zoomzoom.py** file located inside the main directory.

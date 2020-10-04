@@ -23,8 +23,10 @@ class ZoomZoom:
     operating_system = platform.system()
     if operating_system == 'Linux' or operating_system == 'Mac':
         clear = 'clear'
-    elif operating_system == 'windows':
+    elif operating_system == 'Windows':
         clear = 'cls'
+    else:
+        clear = 'clear'
     
     def load_meeting_data(self):
         with open(self.data_path, 'r') as stored_data:

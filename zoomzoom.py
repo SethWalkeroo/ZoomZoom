@@ -3,6 +3,7 @@ import pyautogui
 import re
 import pyfiglet
 import getpass
+import platform
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys 
 from selenium.webdriver.chrome.options import Options
@@ -19,7 +20,12 @@ class ZoomZoom:
     currentMouseX, currentMouseY = pyautogui.position()
     chrome_options = Options()
     chrome_options.add_argument(f'--window-size={screen_width},{screen_height}')
-
+    operating_system = platform.system()
+    if operating_system == 'Linux' or operating_system == 'Mac':
+        clear = 'clear'
+    elif operating_system == 'windows':
+        clear = 'cls'
+    
     def load_meeting_data(self):
         with open(self.data_path, 'r') as stored_data:
             meeting_data = json.load(stored_data)
@@ -43,7 +49,6 @@ class ZoomZoom:
             print()
             meeting_url_list = {str(count):meeting_name for count, meeting_name in enumerate(data['meetings'], 1)}
             if len(meeting_url_list) == 0:
-                print()
                 with indent(4, quote=' *'):
                     puts(colored.red('there are currently no saved zoom meetings...'))
             else:
@@ -51,16 +56,17 @@ class ZoomZoom:
                     with indent(4, quote=' >'):
                         puts(colored.blue(f'{key}: {value}'))
             print()
+            print()
             meeting_url = input('Enter zoom meeting meeting id/url or choose the number of a saved meeting id: ')
             if meeting_url in meeting_url_list:
-                system('clear')
+                system(self.clear)
                 saved_meeting_url = data["meetings"][meeting_url_list[meeting_url]]["id"]
                 saved_meeting_psw = data["meetings"][meeting_url_list[meeting_url]]["psw"]
                 return (saved_meeting_url, saved_meeting_psw, True)
             print()
             verify = input('Are you sure about the entered link/id? [y/n]: ')
             if verify != 'y':
-                system('clear')
+                system(self.clear)
             else:
                 break
         print()
@@ -99,7 +105,7 @@ class ZoomZoom:
                 with indent(4, quote=' $'):
                     puts(colored.green(f'{meeting_name} has been saved at {self.data_path}!'))
                 sleep(1)
-                system('clear')
+                system(self.clear)
 
     # https://chromedriver.chromium.org/downloads
     # website for chrome webdrivers
@@ -118,10 +124,10 @@ class ZoomZoom:
         join_button = browser.find_element_by_xpath('//*[@id="btnSubmit"]')
         join_button.click()
         sleep(1)
-        pyautogui.click(self.screen_width/2 + 135, 220)
+        pyautogui.click( 0.552 * self.screen_width, 0.152 * self.screen_height)
         #clicks join without video button when no password is needed.
         sleep(1)
-        pyautogui.click(self.screen_width/2 + 250, 0.625 * self.screen_height)
+        pyautogui.click(0.597 * self.screen_width, 0.625 * self.screen_height)
         #closes the zoom window to expose the password window
         sleep(1)
         pyautogui.press('escape')
@@ -132,16 +138,17 @@ class ZoomZoom:
                 pyautogui.press(char)
         #clicks to submit entered password on the screen
         sleep(1)
-        pyautogui.click(self.screen_width/2, self.screen_height/2 + 135)
+        pyautogui.click(self.screen_width/2, self.screen_height * 0.594)
         #clicks to join without video if a password is needed
         sleep(1)
-        pyautogui.click(self.screen_width/2 + 225, self.screen_height/2 + 185)
+        pyautogui.click(0.588 * self.screen_width, 0.628 * self.screen_height)
         
         
 
 if __name__ == '__main__':
-    system('clear')
     zoom_zoom = ZoomZoom()
+    clear = zoom_zoom.clear
+    system(clear)
     meeting_data = zoom_zoom.load_meeting_data()
     meeting_info = zoom_zoom.meeting_link(meeting_data)
     zoom_zoom.save_meeting(meeting_info, meeting_data)

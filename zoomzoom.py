@@ -20,6 +20,7 @@ class ZoomZoom:
     currentMouseX, currentMouseY = pyautogui.position()
     chrome_options = Options()
     chrome_options.add_argument(f'--window-size={screen_width},{screen_height}')
+    #finding the user's operating system because the process differs depending.
     operating_system = platform.system()
     if operating_system == 'Linux' or operating_system == 'Mac':
         clear = 'clear'
@@ -28,11 +29,14 @@ class ZoomZoom:
     else:
         clear = 'clear'
     
+    #this function loads in the meeting data from a the json file in the data directory
     def load_meeting_data(self):
         with open(self.data_path, 'r') as stored_data:
             meeting_data = json.load(stored_data)
         return meeting_data
 
+    #this function (which is much too large) is retrieving the url and password form the user
+    #the url and password are then sent to the automatic_join function for use.
     def meeting_link(self, data):
         while True:
             title = pyfiglet.figlet_format('Zoom Zoom !', font='slant')
@@ -109,8 +113,10 @@ class ZoomZoom:
                 sleep(1)
                 system(self.clear)
 
-    # https://chromedriver.chromium.org/downloads
-    # website for chrome webdrivers
+    #This is the main function for joining the zoom session.
+    #This function takes either a meeting id or url and its password
+    #Then uses selenium and pyautogui to enter the information into the browser
+    #And then enter the information into the zoom app on your desktop.
     def automatic_join(self, meeting_info):
         meeting_id = meeting_info[0]
         if meeting_id[:5] == 'https':

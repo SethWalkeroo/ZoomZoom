@@ -137,7 +137,8 @@ class ZoomZoom:
         pyautogui.click(0.597 * self.screen_width, 0.625 * self.screen_height)
         #closes the zoom window to expose the password window
         sleep(1)
-        pyautogui.press('escape')
+        if self.operating_system == 'Linux':
+            pyautogui.press('escape')
         #Enters the password into the zoom password box only if a password is needed.
         if meeting_psw != 0:
             sleep(1)

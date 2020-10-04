@@ -131,7 +131,7 @@ class ZoomZoom:
         if self.operating_system == 'Linux':
             pyautogui.click( 0.552 * self.screen_width, 0.152 * self.screen_height)
         else:
-            pyautogui.click( 0.552 * self.screen_width, 0.152 * self.screen_height - 150)
+            pyautogui.click( 0.552 * self.screen_width, 0.152 * self.screen_height + 75)
         #clicks join without video button when no password is needed.
         sleep(1)
         pyautogui.click(0.597 * self.screen_width, 0.625 * self.screen_height)
